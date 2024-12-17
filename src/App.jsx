@@ -8,6 +8,7 @@ import Landing from "./Landing/Landing";
 import SongList from "./components/SongList";
 import QueueList from "./components/QueueList";
 import SigninForm from "./components/SignInForm";
+import CreateSongForm from "./components/CreateSongForm";
 
 
 function App() {
@@ -15,21 +16,18 @@ function App() {
   const [songList, setSongList] = useState([]);
   const [songQueue, setSongQueue] = useState([]);
 
-  useEffect(() => {
-    const fetchSongs = async () => {
-      try {
-        const songs = await songService.index();
-
-        if (songs.error) {
-          throw new Error(songs.error);
-        }
-
-        setSongList(songs);
-      } catch (error) {
-        console.log(error);
+  const fetchSongs = async () => {
+    try {
+      const songs = await songService.index();
+      if (songs.error) {
+        throw new Error(songs.error);
       }
-    };
-
+      setSongList(songs);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
     fetchSongs();
   }, []);
 
@@ -61,13 +59,13 @@ function App() {
           />
         ) : (
           <Route path="/" element={<Landing songList={songList}/>} />
-          
         )}
         <Route path="/signin" element={<SigninForm setUser={setUser} />} />
+        <Route path="/create" element={<CreateSongForm fetchSongs={fetchSongs}/>}/>
       </Routes>
       <div className="lists">
         <div className="songlistcontain">
-      <SongList songList={songList} handleQueue={handleQueue} />
+      <SongList songList={songList} handleQueue={handleQueue} fetchSongs={fetchSongs}/>
       </div>
       <div className="queuelistcontain">
       <QueueList songQueue={songQueue} handleRemoveFromQueue={handleRemoveFromQueue} />

@@ -33,7 +33,16 @@ const EditSongForm = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        await axios.put(`${BASE_URL}/${props.currentSong.id}`, song);
+        await axios.put(
+            `${BASE_URL}/${props.currentSong.id}`, 
+            song, 
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
       props.getSongs(); // Callback to refresh the list of songs
       props.setShowEditForm(false); // Close the edit form after saving
     } catch (error) {
@@ -75,15 +84,12 @@ const EditSongForm = (props) => {
       </label>
       <label>
         Fullband: 
-        <select
+        <input
           name="fullband"
           value={song.fullband}
           onChange={handleChange}
           required
-        >
-          <option value="Y">Yes</option>
-          <option value="N">No</option>
-        </select>
+        />
       </label>
       <button type="submit">Save Song</button>
       <button type="button" onClick={props.onCancel}>

@@ -5,16 +5,28 @@ import * as songService from "../services/songService";
 
 
 
-const SongList = ({ songList = [], handleQueue, user }) => {
+const SongList = ({ songList = [], handleQueue, user, fetchSongs }) => {
     const [showEditForm, setShowEditForm] = useState(false);
     console.log(songList)
-
+    console.log(user)
     const addToQueue = (song) => {
         handleQueue(song); 
       };
 
       const handleDelete = async (song) => {
-        await songService.deleteSong(song);
+        try {
+            await axios.delete(
+                `${BASE_URL}/${props.currentSong.id}`, 
+                {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json',
+                  },
+                }
+              );
+        } catch (error){
+            console.log(error)
+        }
         getSongs();
       };
     if (songList.length === 0) {
@@ -36,6 +48,7 @@ const SongList = ({ songList = [], handleQueue, user }) => {
                         <>
                         {showEditForm ? (
                 <EditSongForm
+                    fetchSongs={fetchSongs}
                     currentSong={currentSong}        
                     setShowEditForm={setShowEditForm}        
                 />

@@ -16,7 +16,6 @@ const CreateSongForm = (props) => {
     setSong({ ...song, [name]: value });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!/^[YN]{5}$/.test(song.fullband)) {
@@ -25,13 +24,23 @@ const CreateSongForm = (props) => {
     }
 
     try {
-      await axios.post(`${BASE_URL}`, song);
+      await axios.post(
+        `${BASE_URL}`, 
+        song,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
       setSong({
         author: "",
         title: "",
         album: "",
         fullband: "",
       });
+      props.fetchSongs()
       console.log("Song added successfully!");
     } catch (error) {
       console.error("Error adding song:", error);

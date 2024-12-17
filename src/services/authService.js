@@ -30,8 +30,10 @@ const signin = async (user) => {
 
     if (res.data.token) {
       localStorage.setItem("token", res.data.token);
+      console.log(res.data.token)
 
       const user = JSON.parse(atob(res.data.token.split(".")[1]));
+      console.log(user)
       return user;
     }
     return res.data;
