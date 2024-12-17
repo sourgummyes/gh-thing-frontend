@@ -1,0 +1,16 @@
+#root {
+  padding: 3rem;
+  text-align: left;
+}
+
+.lists {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+}
+
+.songlistcontain, .queuelistcontain {
+  flex: 1;
+  max-width: 45%; /* Adjust based on your preference */
+}
