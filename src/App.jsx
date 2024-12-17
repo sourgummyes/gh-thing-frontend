@@ -9,6 +9,7 @@ import SongList from "./components/SongList";
 import QueueList from "./components/QueueList";
 import SigninForm from "./components/SignInForm";
 import CreateSongForm from "./components/CreateSongForm";
+import SignupForm from "./components/SignupForm";
 
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
           <Route path="/" element={<Landing songList={songList}/>} />
         )}
         <Route path="/signin" element={<SigninForm setUser={setUser} />} />
+        <Route path="/signup" element={<SignupForm setUser={setUser} />} />
         <Route path="/create" element={<CreateSongForm fetchSongs={fetchSongs}/>}/>
       </Routes>
       <div className="lists">
